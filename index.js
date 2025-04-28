@@ -4,25 +4,26 @@ const cors = require('cors');
 const morgan = require('morgan');
 const routes = require('./routes/index.js');
 
-const app = express();
 
-// add other middleware
-app.use(cors());
-app.use(morgan('dev'));
+const initializeApp = () => {
 
-// parse application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: false }));
+  const app = express();
 
-// parse application/json
-app.use(express.json());
+  // add other middleware
+  app.use(cors());
+  app.use(morgan('dev'));
 
-app.use('/', routes);
+  // parse application/x-www-form-urlencoded
+  app.use(express.urlencoded({ extended: false }));
 
-const config = {
-  port: process.env.PORT || 8080,
-};
+  // parse application/json
+  app.use(express.json());
 
-app.listen(config.port, () => {
-  // eslint-disable-next-line no-console
-  console.log('Express server listening on port', config.port);
-});
+  app.use('/', routes);
+
+  return app;
+}
+
+const app = initializeApp();
+
+module.exports = app;
